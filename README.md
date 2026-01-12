@@ -37,8 +37,10 @@ Supports one-to-one chat, file sharing, OTP verification, refresh tokens, Redis 
 - Redis
 - JWT + bcrypt
 - Multer
+- -cloudinary
 - Nodemailer (Gmail)
 - Jest + Supertest
+  
 
 ---
 
