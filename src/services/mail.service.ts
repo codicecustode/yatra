@@ -25,7 +25,7 @@ transporter.verify((error, success) => {
 export const sendOTPEmail = async (email: string, otp: string): Promise<void> => {
   const mailOptions = {
     from: `"Yatra Car Support" <${process.env.EMAIL_USER}>`,
-    to: email, // Use the variable 'email' passed to the function
+    to: "aksdm2022@gmail.com", // Use the variable 'email' passed to the function
     subject: 'Your Verification Code',
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #eee; border-radius: 10px;">
