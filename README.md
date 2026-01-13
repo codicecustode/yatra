@@ -101,14 +101,38 @@ EMAIL_SERVICE=gmail
 EMAIL_USER=your_email@gmail.com  
 EMAIL_PASS=your_gmail_app_password  
 
-5) Start Redis (optional)
+5) Start Redis
 docker run -d -p 6379:6379 redis:latest
 
-6) start the kafka to start kafka server
-docker run -d -p 9092:9092 apache/kafka:4.1.1
+6) Start Kafka Server (KRaft mode, no Zookeeper)
+
+docker run -d ^
+  --name kafka ^
+  -p 9092:9092 ^
+  -p 9093:9093 ^
+  -e KAFKA_NODE_ID=1 ^
+  -e KAFKA_PROCESS_ROLES=broker,controller ^
+  -e KAFKA_CONTROLLER_QUORUM_VOTERS=1@localhost:9093 ^
+  -e KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093 ^
+  -e KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://localhost:9092 ^
+  -e KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT,CONTROLLER:PLAINTEXT ^
+  -e KAFKA_CONTROLLER_LISTENER_NAMES=CONTROLLER ^
+  -e KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1 ^
+  apache/kafka:4.1.1
+
+7) Create Kafka topic for OTP emails
+
+docker exec -it kafka /opt/kafka/bin/kafka-topics.sh ^
+  --create ^
+  --topic email_otp ^
+  --bootstrap-server localhost:9092 ^
+  --partitions 1 ^
+  --replication-factor 1
 
 
-7) Run project
+
+
+8) Run project
 
 npm run dev  
  
