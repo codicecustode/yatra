@@ -8,6 +8,7 @@ import { redisClient } from "../config/redis";
 import { sendOTPEmail } from "./mail.service";
 import { generateTokens, verifyRefreshToken } from "../utils/jwt.util";
 import { v4 as uuidv4 } from "uuid";
+import { sendEmailJob } from "../kafka/producer";
 
 export const signupService = async (email: string, password: string) => {
   const isUserExist = await findUserByEmail(email);
@@ -29,7 +30,8 @@ export const signupService = async (email: string, password: string) => {
   console.log("OTP:", otp);
 
   await redisClient.setEx(`otp:${email}`, 300, otp);
-  await sendOTPEmail(email, otp);
+  //produce message to Kafka topic
+  await sendEmailJob(email, otp);
   return user;
 };
 
