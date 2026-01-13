@@ -3,6 +3,8 @@ import app from "./app";
 import { connectDB } from "./config/db";
 import { connectRedis } from "./config/redis";
 import { initSocket } from "./sockets/socket.handler";
+import { initProducer } from "./kafka/producer";
+import {initConsumer} from "./kafka/consumer";
 
 const PORT = process.env.PORT || 3000;
 
@@ -12,6 +14,8 @@ const startServer = async () => {
   try {
     await connectDB();
     await connectRedis();
+    await initProducer();
+    await initConsumer();
 
     // Initialize socket connections
     initSocket(server);
