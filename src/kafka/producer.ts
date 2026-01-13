@@ -1,7 +1,7 @@
 import { kafka } from './index.js';
 import { CompressionTypes } from 'kafkajs';
 
-const EMAIL_TOPIC = 'emailTopic';
+const EMAIL_TOPIC = 'email_otp';
 
 let producer: any = null;
 
@@ -20,6 +20,10 @@ export const initProducer = async () => {
   });
   
   await producer.connect();
+
+  producer.on('producer.connect', () => {
+    console.log('Producer connected');
+  });
   
   producer.on('producer.disconnect', () => {
     console.error('Producer disconnected');

@@ -2,7 +2,7 @@ import { Consumer, EachMessagePayload } from 'kafkajs';
 import { kafka } from './index.js';
 import { sendOTPEmail } from '../services/mail.service';
 
-const EMAIL_TOPIC = 'emailTopic';
+const EMAIL_TOPIC = 'email_otp';
 
 let consumer: Consumer | null = null;
 
@@ -21,6 +21,9 @@ export const initConsumer = async () => {
   });
 
 
+  consumer.on(consumer.events.CONNECT, () => {
+    console.log('Consumer connected');
+  });
   consumer.on(consumer.events.CRASH, ({ payload }) => {
     console.error('Consumer crashed:', payload.error);
   });
