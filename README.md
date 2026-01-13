@@ -33,11 +33,12 @@ Supports one-to-one chat, file sharing, OTP verification, refresh tokens, Redis 
 - TypeScript
 - Express
 - MongoDB + Mongoose
+- Kafka
 - Socket.IO
 - Redis
 - JWT + bcrypt
 - Multer
-- -cloudinary
+- Cloudinary
 - Nodemailer (Gmail)
 - Jest + Supertest
   
@@ -56,6 +57,7 @@ src/
 ├── services/             # Business logic and validations
 ├── repositories/         # Database queries & data access layer
 ├── routes/               # Express route definitions
+├── kafka/                # use kafka for email sending
 ├── middlewares/          # Auth, file upload
 ├── models/               # Mongoose schemas & models
 ├── sockets/              # Socket.IO events, rooms, real-time handlers
@@ -93,16 +95,20 @@ JWT_SECRET=your_access_token_secret
 JWT_REFRESH_SECRET=your_refresh_token_secret  
 
 REDIS_URL=redis://localhost:6379  
+KAFKA_BROKER=localhost:9092
 
 EMAIL_SERVICE=gmail  
 EMAIL_USER=your_email@gmail.com  
 EMAIL_PASS=your_gmail_app_password  
 
 5) Start Redis (optional)
+docker run -d -p 6379:6379 redis:latest
 
-docker run -d --name yatra-redis -p 6379:6379 redis
+6) start the kafka to start kafka server
+docker run -d -p 9092:9092 apache/kafka:4.1.1
 
-6) Run project
+
+7) Run project
 
 npm run dev  
  
@@ -156,10 +162,6 @@ Aman Kumar Singh
 Backend Developer (Node.js, TypeScript, MongoDB)
 
 ---
-
-## 📄 License
-
-MIT License
 
 ---
 
