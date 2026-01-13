@@ -38,7 +38,8 @@ export const initConsumer = async () => {
     eachMessage: async ({ message }: EachMessagePayload) => {
       try {
         const { email, otp } = JSON.parse(message.value?.toString() || '{}');
-        
+
+        //consume the message by sending email
         await sendOTPEmail(email, otp);
         
         console.log(`Processed email for ${email}`);
